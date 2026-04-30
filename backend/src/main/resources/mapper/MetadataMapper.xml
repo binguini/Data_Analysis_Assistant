@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.text2sqlassistant.mapper.MetadataMapper">
+    <select id="selectTables" resultType="com.example.text2sqlassistant.domain.entity.TableMetadata">
+        SELECT id,
+               datasource_id,
+               table_name,
+               table_comment,
+               biz_name,
+               biz_description,
+               is_enabled,
+               schema_version,
+               update_time
+        FROM table_metadata
+        WHERE datasource_id = #{datasourceId}
+        ORDER BY table_name
+    </select>
+
+    <select id="selectColumns" resultType="com.example.text2sqlassistant.domain.entity.ColumnMetadata">
+        SELECT id,
+               table_id,
+               column_name,
+               column_type,
+               column_comment,
+               biz_name,
+               biz_description,
+               example_value,
+               enum_desc,
+               is_sensitive,
+               mask_type,
+               is_queryable,
+               is_filterable,
+               is_aggregatable
+        FROM column_metadata
+        WHERE table_id = #{tableId}
+        ORDER BY id
+    </select>
+
+    <select id="selectRelations" resultType="com.example.text2sqlassistant.domain.entity.TableRelation">
+        SELECT id,
+               datasource_id,
+               source_table,
+               source_column,
+               target_table,
+               target_column,
+               relation_type,
+               description,
+               update_time
+        FROM table_relation
+        WHERE datasource_id = #{datasourceId}
+        ORDER BY id DESC
+    </select>
+
+    <update id="updateTable" parameterType="com.example.text2sqlassistant.domain.entity.TableMetadata">
+        UPDATE table_metadata
+        SET table_comment = #{tableComment},
+            biz_name = #{bizName},
+            biz_description = #{bizDescription},
+            is_enabled = #{isEnabled},
+            schema_version = #{schemaVersion}
+        WHERE id = #{id}
+    </update>
+
+    <update id="updateColumn" parameterType="com.example.text2sqlassistant.domain.entity.ColumnMetadata">
+        UPDATE column_metadata
+        SET column_comment = #{columnComment},
+            biz_name = #{bizName},
+            biz_description = #{bizDescription},
+            example_value = #{exampleValue},
+            enum_desc = #{enumDesc},
+            is_sensitive = #{isSensitive},
+            mask_type = #{maskType},
+            is_queryable = #{isQueryable},
+            is_filterable = #{isFilterable},
+            is_aggregatable = #{isAggregatable}
+        WHERE id = #{id}
+    </update>
+
+    <insert id="insertRelation" parameterType="com.example.text2sqlassistant.domain.entity.TableRelation" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO table_relation (
+            datasource_id,
+            source_table,
+            source_column,
+            target_table,
+            target_column,
+            relation_type,
+            description
+        ) VALUES (
+            #{datasourceId},
+            #{sourceTable},
+            #{sourceColumn},
+            #{targetTable},
+            #{targetColumn},
+            #{relationType},
+            #{description}
+        )
+    </insert>
+
+    <delete id="deleteRelation">
+        DELETE FROM table_relation WHERE id = #{id}
+    </delete>
+</mapper>

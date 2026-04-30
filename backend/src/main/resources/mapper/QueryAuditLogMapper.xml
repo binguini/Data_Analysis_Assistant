@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.text2sqlassistant.mapper.QueryAuditLogMapper">
+    <insert id="insert" parameterType="com.example.text2sqlassistant.domain.entity.QueryAuditLog" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO query_history (
+            query_no,
+            user_id,
+            datasource_id,
+            question,
+            prompt_version,
+            model_name,
+            model_output,
+            generated_sql,
+            executed_sql,
+            status,
+            error_message,
+            duration_ms,
+            row_count,
+            chart_type,
+            result_summary
+        ) VALUES (
+            #{queryNo},
+            #{userId},
+            #{datasourceId},
+            #{question},
+            #{promptVersion},
+            #{modelName},
+            #{modelOutput},
+            #{generatedSql},
+            #{executedSql},
+            #{status},
+            #{errorMessage},
+            #{durationMs},
+            #{rowCount},
+            #{chartType},
+            #{resultSummary}
+        )
+    </insert>
+</mapper>

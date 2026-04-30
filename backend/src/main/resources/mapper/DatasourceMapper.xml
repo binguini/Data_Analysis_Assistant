@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.text2sqlassistant.mapper.DatasourceMapper">
+    <select id="selectEnabledList" resultType="com.example.text2sqlassistant.domain.entity.DatasourceConfig">
+        SELECT id,
+               name,
+               db_type,
+               host,
+               port,
+               database_name,
+               username,
+               password_encrypt,
+               biz_domain,
+               status,
+               create_time,
+               update_time
+        FROM datasource_config
+        WHERE status = 1
+        ORDER BY id DESC
+    </select>
+</mapper>
